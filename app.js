@@ -21,11 +21,11 @@ app.use(passport.initialize());
 app.use(cors({origin: 'http://127.0.0.1:4000'}));
 
 var querystring = require('querystring');
-var mailchimpInstance   = 'us19',
-    listUniqueId        = 'b490c8899e',
-    mailchimpApiKey     = '0f2d49cfa96a3c4823696480deba3d70-us19',
-    mailchimpClientId   = '214739307155';
-    mailchimpSecretKey  = '278091e0394ef6eae40768ac8f9c3ffa857c6008f01f18b74f';
+var mailchimpInstance   = 'xxxx',
+    listUniqueId        = 'xxxxx',
+    mailchimpApiKey     = 'xxxxxxxxxx',
+    mailchimpClientId   = 'xxxxxxxxxxxxx';
+    mailchimpSecretKey  = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx';
 
 passport.use(new MailChimpStrategy({
     clientID: mailchimpClientId,
