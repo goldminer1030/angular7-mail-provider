@@ -1,0 +1,63 @@
+.provider-block {
+    display: block;
+    list-style-type: none;
+}
+.provider-block .provider {
+    display: inline-block;
+    margin-right: 10px;
+}
+.provider-service {
+    position: relative;
+    display: block;
+    min-width: 300px;
+    text-decoration: none;
+    border: 1px solid #aaa;
+    border-radius: 5px;
+    padding: 10px;
+    cursor: pointer;
+    -webkit-transition: all 0.3s ease-in-out;
+    -moz-transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
+    -ms-transition: all 0.3s ease-in-out;
+    -khtml-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+}
+.provider-service .service-gradient {
+    position: absolute;
+    width: calc(100% - 21px);
+    left: 10px;
+    height: 100%;
+    top: 0;
+    border-radius: 4px;
+    background: -webkit-linear-gradient(left, transparent 0%, transparent calc(100% - 150px), #fff calc(100% - 110px), #fff 100%);
+}
+.round-label {
+    background-color: #d1d4d5;
+    color: #777d83;
+    font-weight: 600;
+    padding: 0 10px;
+    border-radius: 20px;
+    -webkit-transition: all 0.3s ease-in-out;
+    -moz-transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
+    -ms-transition: all 0.3s ease-in-out;
+    -khtml-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+}
+.provider-service .round-label {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.provider-service .round-label.connected {
+    background-color: #5bc739;
+    color: #fff;
+}
+.provider-service:hover {
+    box-shadow: 0 5px 15px 0 rgba(0, 0, 0, 0.2), 0 5px 1px 0px rgba(0, 0, 0, 0.12), 0 5px 8px 0 rgba(0, 0, 0, 0.14);
+}
+.provider-service:hover .round-label {
+    background-color: #5bc739;
+    color: #fff;
+}

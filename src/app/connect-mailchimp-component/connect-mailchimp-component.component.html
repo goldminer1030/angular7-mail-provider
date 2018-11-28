@@ -1,0 +1,13 @@
+<div class="modal-close">
+  <a class="btn-close" (click)="activeModal.close('Cross click')">X</a>
+</div>
+<div class="modal-header">
+  <img src="{{ env.myVarForImageURLS }}/icon-provider-mailchimp.png" alt="provider logo">
+  <span class="round-label">Not Connected</span>
+</div>
+<div class="modal-body">
+  <p>Click the connect button and login to your MailChimp account to allow access to export to your list</p>
+</div>
+<div class="modal-footer">
+  <a class="btn-connect" href="/mailchimp/authorize" onclick="window.open('/mailchimp/authorize','popup','width=600,height=600'); return false;" target="popup">Connect</a>
+</div>

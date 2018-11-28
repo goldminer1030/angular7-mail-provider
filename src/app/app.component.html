@@ -1,0 +1,15 @@
+<ng2-slim-loading-bar color="blue"></ng2-slim-loading-bar>
+<br>
+<ul class="provider-block">
+  <li *ngFor="let provider of providers" class="provider">
+    <a class="provider-service" (click)="openConnectModal(provider)">
+      <img src="{{ env.myVarForImageURLS }}/icon-{{ provider.class }}.png" alt="provider logo">
+      <div class="service-gradient"></div>
+      <span class="round-label" [ngClass]="{'connected': provider.connected == true}">Connect</span>
+    </a>
+  </li>
+</ul>
+
+<div class="container">
+  <router-outlet></router-outlet>
+</div>
