@@ -9,25 +9,22 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
 
-import { MailchimpServiceService } from './mailchimp-service.service';
-import { MailchimpAuthComponentComponent } from './mailchimp-auth-component/mailchimp-auth-component.component';
-import { ConnectConstantContractComponentComponent } from './connect-constant-contract-component/connect-constant-contract-component.component';
-import { ConnectDripComponentComponent } from './connect-drip-component/connect-drip-component.component';
-import { ConnectAWeberComponentComponent } from './connect-aweber-component/connect-aweber-component.component';
-import { ConnectMailchimpComponentComponent } from './connect-mailchimp-component/connect-mailchimp-component.component';
-import { ConnectGetResponseComponentComponent } from './connect-get-response-component/connect-get-response-component.component';
-import { ConnectActiveCampaignComponentComponent } from './connect-active-campaign-component/connect-active-campaign-component.component';
+import { MailchimpConnectComponent } from './mailchimp-connect/mailchimp-connect.component';
+import { GetResponseConnectComponent } from './get-response-connect/get-response-connect.component';
+import { DripConnectComponent } from './drip-connect/drip-connect.component';
+import { ConstantContractConnectComponent } from './constant-contract-connect/constant-contract-connect.component';
+import { AweberConnectComponent } from './aweber-connect/aweber-connect.component';
+import { ActiveCampaignConnectComponent } from './active-campaign-connect/active-campaign-connect.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    MailchimpAuthComponentComponent,
-    ConnectConstantContractComponentComponent,
-    ConnectDripComponentComponent,
-    ConnectAWeberComponentComponent,
-    ConnectMailchimpComponentComponent,
-    ConnectGetResponseComponentComponent,
-    ConnectActiveCampaignComponentComponent
+    MailchimpConnectComponent,
+    GetResponseConnectComponent,
+    DripConnectComponent,
+    ConstantContractConnectComponent,
+    AweberConnectComponent,
+    ActiveCampaignConnectComponent
   ],
   imports: [
     NgbModule.forRoot(),
@@ -37,15 +34,15 @@ import { ConnectActiveCampaignComponentComponent } from './connect-active-campai
     ReactiveFormsModule,
     HttpClientModule
   ],
-  providers: [ MailchimpServiceService ],
+  providers: [ ],
   bootstrap: [AppComponent],
   entryComponents: [
-    ConnectConstantContractComponentComponent,
-    ConnectDripComponentComponent,
-    ConnectAWeberComponentComponent,
-    ConnectMailchimpComponentComponent,
-    ConnectGetResponseComponentComponent,
-    ConnectActiveCampaignComponentComponent
+    ConstantContractConnectComponent,
+    DripConnectComponent,
+    AweberConnectComponent,
+    MailchimpConnectComponent,
+    GetResponseConnectComponent,
+    ActiveCampaignConnectComponent
   ]
 })
 export class AppModule { }

@@ -27,13 +27,20 @@
     -khtml-transition: all 0.3s ease-in-out;
     transition: all 0.3s ease-in-out;
 }
+.round-label.connected {
+    background-color: #5bc739;
+    color: #fff;
+}
 .modal-footer {
     justify-content: center;
+}
+.modal-footer .btn {
+    padding: 10px 20px;
 }
 .btn-connect {
     background: #5bc739;
     color: #fff !important;
     border-radius: 4px;
-    padding: 10px 20px;
     cursor: pointer;
+    text-decoration: none;
 }

@@ -3,13 +3,16 @@ const express = require('express'),
     bodyParser = require('body-parser'),
     cors = require('cors'),
     passport = require('passport'),
-    session = require('express-session');
+    session = require('express-session'),
+    request = require('superagent'),
     passportMailchimp = require('passport-mailchimp'),
     passportAweber = require('passport-aweber'),
     passportConstantContract = require('passport-constantcontact'),
+    passportOAuth2 = require('passport-oauth2'),
     MailChimpStrategy = passportMailchimp.Strategy,
     AweberStrategy = passportAweber.Strategy,
     ConstantContactStrategy = passportConstantContract.Strategy,
+    GetresponseStrategy = passportOAuth2.Strategy,
     mongoose = require('mongoose'),
     config = require('./api/DB');
 
@@ -39,7 +42,9 @@ var mailchimpInstance   = 'xxxx',
     aweberConsumerKey   = 'xxxxxxxxxxxxxxxxxxxxxxxx',
     aweberConsumerSecret= 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
     constantcontractClientId = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxx',
-    constantcontractClientSecret = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx';
+    constantcontractClientSecret = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+    getresponseClientId = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+    getresponseClientSecret = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx';
 
 // Mailchimp
 passport.use(new MailChimpStrategy({
@@ -70,6 +75,19 @@ passport.use(new ConstantContactStrategy({
     callbackURL: "constantcontact/callback"
   }, function (accessToken, refreshToken, profile, done) {
     console.log('DONE!!!');
+  }
+));
+
+// Getresponse
+passport.use(new GetresponseStrategy({
+    authorizationURL: 'https://app.getresponse.com/oauth2_authorize.html',
+    tokenURL: 'https://api.getresponse.com/v3/token',
+    clientID: getresponseClientId,
+    clientSecret: getresponseClientSecret,
+    callbackURL: "getresponse/callback"
+  },
+  function(accessToken, refreshToken, profile, cb) {
+    console.log('DONE');
   }
 ));
 
@@ -104,7 +122,34 @@ app.get('/constantcontact/callback',
   function(req, res) {
     // Successul authentication, redirect home.
     res.redirect('/constantcontact');
-  });
+});
+
+// Getresponse
+app.post('/getresponse/authorize', function (req, res) {
+  if(req.body && req.body.apikey) {
+    // valid
+    request
+      .get('https://api.getresponse.com/v3/accounts')
+      .set('X-Auth-Token', 'api-key ' + req.body.apikey)
+      .send().end(function(err, response) {
+        if (response.status < 300 || (response.status === 400 && response.body.title === "Member Exists")) {
+          res.send({ success: true, message: 'Connected' });
+        } else {
+          res.send({ success: false, message: 'Not Connected' });
+        }
+      });
+  } else {
+    // invalid
+    res.send({ success: false, message: 'Error' });
+  }
+});
+app.get('/getresponse/authorize', passport.authenticate('oauth2'));
+app.get('/getresponse/callback',
+  passport.authenticate('oauth2', { failureRedirect: '/getresponse' }),
+  function(req, res) {
+    // Successful authentication, redirect home.
+    res.redirect('/getresponse');
+});
 
 const port = process.env.PORT || 4000;
 

@@ -7,12 +7,12 @@ import { NavigationCancel,
         NavigationStart,
         Router } from '@angular/router';
 import { routerNgProbeToken } from '@angular/router/src/router_module';
-import { ConnectActiveCampaignComponentComponent } from './connect-active-campaign-component/connect-active-campaign-component.component';
-import { ConnectAWeberComponentComponent } from './connect-aweber-component/connect-aweber-component.component';
-import { ConnectConstantContractComponentComponent } from './connect-constant-contract-component/connect-constant-contract-component.component';
-import { ConnectDripComponentComponent } from './connect-drip-component/connect-drip-component.component';
-import { ConnectGetResponseComponentComponent } from './connect-get-response-component/connect-get-response-component.component';
-import { ConnectMailchimpComponentComponent } from './connect-mailchimp-component/connect-mailchimp-component.component';
+import { ActiveCampaignConnectComponent } from './active-campaign-connect/active-campaign-connect.component';
+import { AweberConnectComponent } from './aweber-connect/aweber-connect.component';
+import { ConstantContractConnectComponent } from './constant-contract-connect/constant-contract-connect.component';
+import { DripConnectComponent } from './drip-connect/drip-connect.component';
+import { GetResponseConnectComponent } from './get-response-connect/get-response-connect.component';
+import { MailchimpConnectComponent } from './mailchimp-connect/mailchimp-connect.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { environment as env } from '../environments/environment';
 
@@ -63,27 +63,34 @@ export class AppComponent {
     if($event) {
       switch($event.name) {
         case 'Constant Contact':
-          const modalConstantContractRef = this._bsModalService.open(ConnectConstantContractComponentComponent, { centered: true });
+          const modalConstantContractRef = this._bsModalService.open(ConstantContractConnectComponent, { centered: true });
           modalConstantContractRef.componentInstance.title = 'Connect ' + $event.name;
         break;
         case 'Drip':
-          const modalDripRef = this._bsModalService.open(ConnectDripComponentComponent, { centered: true });
+          const modalDripRef = this._bsModalService.open(DripConnectComponent, { centered: true });
           modalDripRef.componentInstance.title = 'Connect ' + $event.name;
         break;
         case 'AWeber':
-          const modalAWeberRef = this._bsModalService.open(ConnectAWeberComponentComponent, { centered: true });
+          const modalAWeberRef = this._bsModalService.open(AweberConnectComponent, { centered: true });
           modalAWeberRef.componentInstance.title = 'Connect ' + $event.name;
         break;
         case 'MailChimp':
-          const modalMailchimpRef = this._bsModalService.open(ConnectMailchimpComponentComponent, { centered: true });
+          const modalMailchimpRef = this._bsModalService.open(MailchimpConnectComponent, { centered: true });
           modalMailchimpRef.componentInstance.title = 'Connect ' + $event.name;
         break;
         case 'GetResponse':
-          const modalGetresponseRef = this._bsModalService.open(ConnectGetResponseComponentComponent, { centered: true });
+          const modalGetresponseRef = this._bsModalService.open(GetResponseConnectComponent, { centered: true });
           modalGetresponseRef.componentInstance.title = 'Connect ' + $event.name;
+          modalGetresponseRef.componentInstance.id = 10;
+
+          modalGetresponseRef.result.then((result) => {
+            console.log(result);
+          }).catch((error) => {
+            console.log(error);
+          })
         break;
         case 'ActiveCampaign':
-          const modalActivecampaignRef = this._bsModalService.open(ConnectActiveCampaignComponentComponent, { centered: true });
+          const modalActivecampaignRef = this._bsModalService.open(ActiveCampaignConnectComponent, { centered: true });
           modalActivecampaignRef.componentInstance.title = 'Connect ' + $event.name;
         break;
       }

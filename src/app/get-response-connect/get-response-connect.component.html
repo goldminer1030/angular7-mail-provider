@@ -1,0 +1,33 @@
+<div class="modal-close">
+  <a class="btn-close" (click)="activeModal.close('Cross click')">X</a>
+</div>
+<div class="modal-header">
+  <img src="{{ env.myVarForImageURLS }}/icon-provider-getresponse.png" alt="provider logo">
+  <span class="round-label" [ngClass]="{'connected': isConnected == true}">{{ statusMessage }}</span>
+</div>
+<form *ngIf="isConnected == false" [formGroup]="connectForm" (ngSubmit)="submitForm()">
+  <div class="modal-body">
+    <p>Enter your API key and click the connect button to allow access to export to your list</p>
+    <div class="form-group">
+      <label for="apikey">API Key</label>
+      <input type="text" class="form-control" formControlName="apikey" required/>
+    </div>
+    <div class="form-group">
+      <label for="url">GetResponse360 API URL(optional)</label>
+      <input type="text" class="form-control" formControlName="url" />
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button [disabled]="!connectForm.valid" class="btn btn-connect">Connect</button>
+  </div>
+</form>
+<div *ngIf="isConnected == true">
+  <div class="modal-body">
+    <h4>Global Integration Settings</h4>
+    <p>Below are your integration settings based on your global settings. Changing these settings will only affect this campaign.</p>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-connect">Save</button>
+    <button class="btn">Test Settings</button>
+  </div>
+</div>

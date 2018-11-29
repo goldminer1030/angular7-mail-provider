@@ -3,11 +3,11 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { environment as env } from '../../environments/environment';
 
 @Component({
-  selector: 'app-connect-constant-contract-component',
-  templateUrl: './connect-constant-contract-component.component.html',
-  styleUrls: ['./connect-constant-contract-component.component.css']
+  selector: 'app-mailchimp-connect',
+  templateUrl: './mailchimp-connect.component.html',
+  styleUrls: ['./mailchimp-connect.component.css']
 })
-export class ConnectConstantContractComponentComponent implements OnInit {
+export class MailchimpConnectComponent implements OnInit {
 
   public env = env;
   

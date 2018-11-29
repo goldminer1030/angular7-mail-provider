@@ -3,11 +3,11 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { environment as env } from '../../environments/environment';
 
 @Component({
-  selector: 'app-connect-active-campaign-component',
-  templateUrl: './connect-active-campaign-component.component.html',
-  styleUrls: ['./connect-active-campaign-component.component.css']
+  selector: 'app-active-campaign-connect',
+  templateUrl: './active-campaign-connect.component.html',
+  styleUrls: ['./active-campaign-connect.component.css']
 })
-export class ConnectActiveCampaignComponentComponent implements OnInit {
+export class ActiveCampaignConnectComponent implements OnInit {
 
   public env = env;
   constructor(

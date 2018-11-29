@@ -3,14 +3,14 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { environment as env } from '../../environments/environment';
 
 @Component({
-  selector: 'app-connect-get-response-component',
-  templateUrl: './connect-get-response-component.component.html',
-  styleUrls: ['./connect-get-response-component.component.css']
+  selector: 'app-constant-contract-connect',
+  templateUrl: './constant-contract-connect.component.html',
+  styleUrls: ['./constant-contract-connect.component.css']
 })
-export class ConnectGetResponseComponentComponent implements OnInit {
+export class ConstantContractConnectComponent implements OnInit {
 
   public env = env;
-
+  
   constructor(
     public activeModal: NgbActiveModal
   ) { }
