@@ -6,8 +6,10 @@ const express = require('express'),
     session = require('express-session');
     passportMailchimp = require('passport-mailchimp'),
     passportAweber = require('passport-aweber'),
+    passportConstantContract = require('passport-constantcontact'),
     MailChimpStrategy = passportMailchimp.Strategy,
     AweberStrategy = passportAweber.Strategy,
+    ConstantContactStrategy = passportConstantContract.Strategy,
     mongoose = require('mongoose'),
     config = require('./api/DB');
 
@@ -35,7 +37,9 @@ var mailchimpInstance   = 'xxxx',
     mailchimpClientId   = 'xxxxxxxxxxxxx';
     mailchimpSecretKey  = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
     aweberConsumerKey   = 'xxxxxxxxxxxxxxxxxxxxxxxx',
-    aweberConsumerSecret= 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx';
+    aweberConsumerSecret= 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+    constantcontractClientId = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+    constantcontractClientSecret = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx';
 
 // Mailchimp
 passport.use(new MailChimpStrategy({
@@ -55,6 +59,16 @@ passport.use(new AweberStrategy({
     callbackURL: "/aweber/callback"
   },
   function(token, tokenSecret, profile, done) {
+    console.log('DONE!!!');
+  }
+));
+
+// Constant Contract
+passport.use(new ConstantContactStrategy({
+    clientID: constantcontractClientId,
+    clientSecret: constantcontractClientSecret,
+    callbackURL: "constantcontact/callback"
+  }, function (accessToken, refreshToken, profile, done) {
     console.log('DONE!!!');
   }
 ));
@@ -81,6 +95,15 @@ app.get('/aweber/callback',
   function(req, res) {
     // Successful authentication, redirect home.
     res.redirect('/aweber');
+});
+
+// Constantcontract
+app.get('/constantcontact/authorize', passport.authenticate('constantcontact'));
+app.get('/constantcontact/callback',
+  passport.authenticate('constantcontact', { failureRedirect: '/constantcontact' }),
+  function(req, res) {
+    // Successul authentication, redirect home.
+    res.redirect('/constantcontact');
   });
 
 const port = process.env.PORT || 4000;

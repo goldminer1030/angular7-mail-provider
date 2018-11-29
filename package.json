@@ -32,6 +32,7 @@
     "ngx-bootstrap": "^3.1.2",
     "passport": "^0.4.0",
     "passport-aweber": "0.0.1",
+    "passport-constantcontact": "0.0.1",
     "passport-mailchimp": "^1.1.0",
     "rxjs": "~6.3.3",
     "rxjs-compat": "^6.3.3",
