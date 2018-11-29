@@ -9,6 +9,7 @@ const express = require('express'),
     passportAweber = require('passport-aweber'),
     passportConstantContract = require('passport-constantcontact'),
     passportOAuth2 = require('passport-oauth2'),
+    ActiveCampaign = require('activecampaign'),
     MailChimpStrategy = passportMailchimp.Strategy,
     AweberStrategy = passportAweber.Strategy,
     ConstantContactStrategy = passportConstantContract.Strategy,
@@ -143,12 +144,27 @@ app.post('/getresponse/authorize', function (req, res) {
     res.send({ success: false, message: 'Error' });
   }
 });
-app.get('/getresponse/authorize', passport.authenticate('oauth2'));
-app.get('/getresponse/callback',
-  passport.authenticate('oauth2', { failureRedirect: '/getresponse' }),
-  function(req, res) {
-    // Successful authentication, redirect home.
-    res.redirect('/getresponse');
+
+// ActiveCampaign
+app.post('/activecampaign/authorize', function (req, res) {
+  if(req.body && req.body.apikey && req.body.url) {
+    // valid
+
+    var ac = new ActiveCampaign(req.body.url, req.body.apikey);
+
+    ac.credentials_test().then(function(result) {
+      if(result.success) {
+        res.send({ success: true, message: 'Connected' });
+      } else {
+        res.send({ success: false, message: 'Not Connected' });
+      }
+    }, function(result) {
+      res.send({ success: false, message: 'Error' });
+    });
+  } else {
+    // invalid
+    res.send({ success: false, message: 'Invalid parameter' });
+  }
 });
 
 const port = process.env.PORT || 4000;

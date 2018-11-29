@@ -17,4 +17,11 @@ export class MailProviderService {
       'url': url
     })
   }
+
+  connectActiveCampaign(apikey: any, url: any) {
+    return this.http.post(env.baserServerURL + '/activecampaign/authorize/', {
+      'apikey': apikey,
+      'url': url
+    })
+  }
 }

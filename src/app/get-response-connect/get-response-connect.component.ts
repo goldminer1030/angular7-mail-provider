@@ -14,7 +14,6 @@ export class GetResponseConnectComponent implements OnInit {
   public env = env;
   public isConnected = false;
   public statusMessage = 'Not Connected';
-  @Input()id: number;
   connectForm: FormGroup;
 
   constructor(
@@ -34,11 +33,9 @@ export class GetResponseConnectComponent implements OnInit {
 
   private submitForm() {
     this.mailService.connectGetResponse(this.connectForm.value.apikey, this.connectForm.value.url).subscribe(data => {
-      console.log(data['success']);
       if(data['success']) {
         this.isConnected = true;
         this.statusMessage = data['message'];
-        localStorage.setItem('getResponseStatus', 'connect');
       } else {
         this.statusMessage = 'Not Connected';
       }
