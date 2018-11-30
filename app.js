@@ -15,14 +15,17 @@ const express = require('express'),
     ConstantContactStrategy = passportConstantContract.Strategy,
     GetresponseStrategy = passportOAuth2.Strategy,
     mongoose = require('mongoose'),
+    _config = require('./config');
     config = require('./api/DB');
 
+// Database config
 mongoose.Promise = global.Promise;
 mongoose.connect(config.DB, { useNewUrlParser: true }).then(
   () => {console.log('Database is connected') },
   err => { console.log('Can not connect to the database'+ err)}
 );
 
+// Express config
 const app = express();
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(session({
@@ -33,62 +36,49 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static(__dirname));
-app.use(cors({origin: 'http://127.0.0.1:4000'}));
-
-var mailchimpInstance   = 'xxxx',
-    listUniqueId        = 'xxxxx',
-    mailchimpApiKey     = 'xxxxxxxxxx',
-    mailchimpClientId   = 'xxxxxxxxxxxxx';
-    mailchimpSecretKey  = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
-    aweberConsumerKey   = 'xxxxxxxxxxxxxxxxxxxxxxxx',
-    aweberConsumerSecret= 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
-    constantcontractClientId = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxx',
-    constantcontractClientSecret = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
-    getresponseClientId = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
-    getresponseClientSecret = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx';
+app.use(cors({origin: _config.serverURL}));
 
 // Mailchimp
 passport.use(new MailChimpStrategy({
-    clientID: mailchimpClientId,
-    clientSecret: mailchimpSecretKey,
-    callbackURL: "/mailchimp/callback",
-    passReqToCallback: true
+    clientID: _config.mailchimp.clientID,
+    clientSecret: _config.mailchimp.clientSecret,
+    callbackURL: _config.mailchimp.callbackURL
     }, function (accessToken, refreshToken, profile, done) {
-        console.log('DONE!!!');
+        console.log('Mailchimp Authentication DONE!!!');
     }
 ));
 
 // AWeber
 passport.use(new AweberStrategy({
-    consumerKey: aweberConsumerKey,
-    consumerSecret: aweberConsumerSecret,
-    callbackURL: "/aweber/callback"
+    consumerKey: _config.aweber.consumerKey,
+    consumerSecret: _config.aweber.consumerSecret,
+    callbackURL: _config.aweber.callbackURL
   },
   function(token, tokenSecret, profile, done) {
-    console.log('DONE!!!');
+    console.log('AWeber Authentication DONE!!!');
   }
 ));
 
 // Constant Contract
 passport.use(new ConstantContactStrategy({
-    clientID: constantcontractClientId,
-    clientSecret: constantcontractClientSecret,
-    callbackURL: "constantcontact/callback"
+    clientID: _config.constantcontract.clientID,
+    clientSecret: _config.constantcontract.clientSecret,
+    callbackURL: _config.constantcontract.callbackURL
   }, function (accessToken, refreshToken, profile, done) {
-    console.log('DONE!!!');
+    console.log('ConstantContract Authentication DONE!!!');
   }
 ));
 
 // Getresponse
 passport.use(new GetresponseStrategy({
-    authorizationURL: 'https://app.getresponse.com/oauth2_authorize.html',
-    tokenURL: 'https://api.getresponse.com/v3/token',
-    clientID: getresponseClientId,
-    clientSecret: getresponseClientSecret,
-    callbackURL: "getresponse/callback"
+    authorizationURL: _config.getresponse.authorizationURL,
+    tokenURL: _config.getresponse.tokenURL,
+    clientID: _config.getresponse.clientID,
+    clientSecret: _config.getresponse.clientSecret,
+    callbackURL: _config.getresponse.callbackURL
   },
   function(accessToken, refreshToken, profile, cb) {
-    console.log('DONE');
+    console.log('GetResponse Authentication DONE');
   }
 ));
 
@@ -100,29 +90,29 @@ app.get('/', function (req, res) {
 // Mailchimp
 app.get('/mailchimp/authorize', passport.authenticate('mailchimp'));
 app.get('/mailchimp/callback',
-  passport.authenticate('mailchimp', { failureRedirect: '/mailchimp' }),
+  passport.authenticate('mailchimp', { failureRedirect: _config.mailchimp.failureRedirectURL }),
   function(req, res) {
     // Successul authentication, redirect home.
     console.log(res);
-    res.redirect('/mailchimp');
+    res.redirect(_config.mailchimp.successRedirectURL);
 });
 
 // Aweber
 app.get('/aweber/authorize', passport.authenticate('aweber'));
 app.get('/aweber/callback', 
-  passport.authenticate('aweber', { failureRedirect: '/aweber' }),
+  passport.authenticate('aweber', { failureRedirect: _config.aweber.failureRedirectURL }),
   function(req, res) {
     // Successful authentication, redirect home.
-    res.redirect('/aweber');
+    res.redirect(_config.aweber.successRedirectURL);
 });
 
 // Constantcontract
 app.get('/constantcontact/authorize', passport.authenticate('constantcontact'));
 app.get('/constantcontact/callback',
-  passport.authenticate('constantcontact', { failureRedirect: '/constantcontact' }),
+  passport.authenticate('constantcontact', { failureRedirect: _config.constantcontract.failureRedirectURL }),
   function(req, res) {
     // Successul authentication, redirect home.
-    res.redirect('/constantcontact');
+    res.redirect(_config.constantcontract.successRedirectURL);
 });
 
 // Getresponse
